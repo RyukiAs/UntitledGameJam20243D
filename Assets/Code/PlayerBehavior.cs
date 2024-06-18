@@ -12,6 +12,9 @@ public class PlayerBehavior : MonoBehaviour
     public float secondsBetweenShots;
     float secondsSinceLastShot;
 
+    public float secondsBetweenJumps;
+    float secondsSinceLastJump;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +42,7 @@ public class PlayerBehavior : MonoBehaviour
 
         //Firing
         secondsSinceLastShot += Time.deltaTime;
+        secondsSinceLastJump += Time.deltaTime;
 
         //Click to fire
         // if clicked, create a bullet at current position
@@ -47,6 +51,12 @@ public class PlayerBehavior : MonoBehaviour
             Instantiate(bulletPrefab, transform.position + transform.forward, transform.rotation);
             //transform.position += Vector3.up * 0.01f;
             secondsSinceLastShot = 0;
+        }
+
+        if (Input.GetButton("Jump") && secondsSinceLastJump >= secondsBetweenJumps)
+        {
+            ourRigidBody.velocity = new Vector3(Input.GetAxis("Horizontal"), 10, Input.GetAxis("Vertical"));
+            secondsSinceLastJump = 0;
         }
 
     }
