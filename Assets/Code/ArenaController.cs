@@ -23,14 +23,14 @@ public class ArenaController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CreateNextSlice();
+        for (int i = 0; i < 3; i++)
+        {
+            CreateNextSlice();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < 3; i++) {
-            CreateNextSlice();
-        }
     }
 }
