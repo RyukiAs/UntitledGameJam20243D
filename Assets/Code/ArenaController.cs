@@ -7,6 +7,7 @@ public class ArenaController : MonoBehaviour
     public GameObject arenaSlicePrefab;
 
     private int nextSliceIndex = 0;
+    private float sliceGrowthFactor = 5.0f;
     void CreateNextSlice()
     {
         GameObject slice = Instantiate(arenaSlicePrefab);
