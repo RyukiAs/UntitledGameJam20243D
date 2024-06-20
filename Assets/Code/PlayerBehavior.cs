@@ -5,59 +5,135 @@ using UnityEngine.Experimental.AI;
 
 public class PlayerBehavior : MonoBehaviour
 {
-    //never set the value of a public variable here
     public float speed;
-    public GameObject bulletPrefab;
+    public float dashDistance;
+    public float dashCooldown;
+    private float dashCooldownTimer;
 
     public float secondsBetweenShots;
-    float secondsSinceLastShot;
+    private float secondsSinceLastShot;
 
     public float secondsBetweenJumps;
-    float secondsSinceLastJump;
+    private float secondsSinceLastJump;
 
-    // Start is called before the first frame update
-    void Start()
+    public Vector3 playerSize;
+
+    public float jumpHeight;
+    public float timeInAir;
+    private float trackTimeInAir;
+    private bool isJumping;
+
+    private Rigidbody rb;
+    private Transform playerTransform;
+    private bool isGrounded;
+
+    private void Start()
     {
+        rb = GetComponent<Rigidbody>();
+        playerTransform = transform;
         secondsSinceLastShot = secondsBetweenShots;
         References.thePlayer = gameObject;
+        timeInAir = 1f;
+        isGrounded = true;
+        dashCooldownTimer = dashCooldown;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        UpdatePlayerSize();
+        HandleMovement();
+        HandleRotation();
+        HandleJumping();
+        HandleDash();
+    }
 
-        //WASD to move
+    private void UpdatePlayerSize()
+    {
+        // Assuming playerSize is used for some purpose not shown in the provided code
+        playerSize = new Vector3(playerTransform.localScale.x, playerTransform.localScale.y, playerTransform.localScale.z);
+        jumpHeight = playerTransform.localScale.y;
+    }
+
+    private void HandleMovement()
+    {
         Vector3 inputVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        Rigidbody ourRigidBody = GetComponent<Rigidbody>();
-        ourRigidBody.velocity = inputVector * speed;
+        rb.velocity = inputVector * speed;
+    }
 
+    private void HandleRotation()
+    {
         Ray rayFromCameraToCursor = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane playerPlane = new Plane(Vector3.up, transform.position);
-        playerPlane.Raycast(rayFromCameraToCursor, out float distanceFromCamera);
-        Vector3 cursorPosition = rayFromCameraToCursor.GetPoint(distanceFromCamera);
+        Plane playerPlane = new Plane(Vector3.up, playerTransform.position);
+        if (playerPlane.Raycast(rayFromCameraToCursor, out float distanceFromCamera))
+        {
+            Vector3 cursorPosition = rayFromCameraToCursor.GetPoint(distanceFromCamera);
+            // Rotate player to face cursor position
+            playerTransform.LookAt(cursorPosition);
+        }
+    }
 
-        //look at new position
-        Vector3 lookAtPosition = cursorPosition;
-        transform.LookAt(lookAtPosition);
-
-        //Firing
-        secondsSinceLastShot += Time.deltaTime;
+    private void HandleJumping()
+    {
         secondsSinceLastJump += Time.deltaTime;
 
-        //Click to fire
-        // if clicked, create a bullet at current position
-        if (Input.GetButton("Fire1") && secondsSinceLastShot >= secondsBetweenShots)
+        if (Input.GetButton("Jump") && secondsSinceLastJump >= secondsBetweenJumps && isGrounded)
         {
-            Instantiate(bulletPrefab, transform.position + transform.forward, transform.rotation);
-            //transform.position += Vector3.up * 0.01f;
-            secondsSinceLastShot = 0;
-        }
-
-        if (Input.GetButton("Jump") && secondsSinceLastJump >= secondsBetweenJumps)
-        {
-            ourRigidBody.velocity = new Vector3(Input.GetAxis("Horizontal"), 10, Input.GetAxis("Vertical"));
+            isJumping = true;
+            isGrounded = false;
+            trackTimeInAir = 0;
             secondsSinceLastJump = 0;
         }
 
+        if (isJumping)
+        {
+            if (timeInAir > 0)
+            {
+                float jumpIncrement = (jumpHeight / timeInAir) * Time.deltaTime;
+                Vector3 newPosition = playerTransform.position + Vector3.up * jumpIncrement;
+                playerTransform.position = newPosition;
+
+                trackTimeInAir += Time.deltaTime;
+
+                if (trackTimeInAir >= timeInAir)
+                {
+                    isJumping = false;
+                }
+            }
+            else
+            {
+                Debug.LogError("timeInAir is zero or negative, setting to default 1 second.");
+                timeInAir = 1;
+            }
+        }
+
+        ApplyGravity();
+    }
+
+    private void ApplyGravity()
+    {
+        float groundLevel = 0.55f;
+
+        if (!isJumping && playerTransform.position.y > groundLevel)
+        {
+            float gravity = 10f;
+            playerTransform.position += Vector3.down * gravity * Time.deltaTime;
+        }
+        else if (playerTransform.position.y <= groundLevel)
+        {
+            playerTransform.position = new Vector3(playerTransform.position.x, groundLevel, playerTransform.position.z);
+            isGrounded = true;
+        }
+    }
+
+    private void HandleDash()
+    {
+        dashCooldownTimer += Time.deltaTime;
+
+        if (Input.GetButton("Fire1") && dashCooldownTimer >= dashCooldown)
+        {
+            Vector3 dashDirection = playerTransform.forward;
+            rb.MovePosition(playerTransform.position + dashDirection * dashDistance);
+            dashCooldownTimer = 0;
+        }
     }
 }
