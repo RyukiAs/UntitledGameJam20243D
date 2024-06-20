@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
@@ -10,15 +11,19 @@ public class CameraMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        float x = player.transform.position.x;
-        float z = player.transform.position.z;
-        Vector3 position = new Vector3(x, this.gameObject.transform.position.y, z);
-        this.gameObject.transform.position = position;
+        if (player == null)
+            return; // Exit if player is not assigned
+
+        Vector3 currentPosition = gameObject.transform.position;
+        Vector3 targetPosition = new Vector3(player.transform.position.x, currentPosition.y, player.transform.position.z);
+
+        transform.position = Vector3.Lerp(currentPosition, targetPosition, Time.deltaTime * 5f);
+        //this.gameObject.transform.position = position;
     }
 }

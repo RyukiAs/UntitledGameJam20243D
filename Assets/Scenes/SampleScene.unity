@@ -578,7 +578,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arenaSlicePrefab: {fileID: 5360808774078232931, guid: 99ca6cab323f67a429f728077e12e1e2, type: 3}
   arenaFloor: {fileID: 859965126}
+<<<<<<< Updated upstream
   heightGrowthFactor: 2
+=======
+  heightGrowthFactor: 5
+>>>>>>> Stashed changes
 --- !u!4 &1622089966
 Transform:
   m_ObjectHideFlags: 0
