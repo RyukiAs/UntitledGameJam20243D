@@ -24,13 +24,15 @@ public class ArenaController : MonoBehaviour
     void Start()
     {
         CreateNextSlice();
+        for (int i = 0; i < 3; i++)
+        {
+            CreateNextSlice();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < 3; i++) {
-            CreateNextSlice();
-        }
+        
     }
 }
