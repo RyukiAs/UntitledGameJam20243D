@@ -306,13 +306,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 859965126}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 20, y: 1, z: 20}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_Father: {fileID: 1622089966}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
@@ -524,9 +524,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  bulletPrefab: {fileID: 4739851505853259326, guid: 124729d690142e74d9c822f7ff3940bc, type: 3}
+  dashDistance: 0
+  dashCooldown: 0
   secondsBetweenShots: 0
   secondsBetweenJumps: 2
+  playerSize: {x: 0, y: 0, z: 0}
+  jumpHeight: 0
+  timeInAir: 0
 --- !u!54 &1549582626
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -573,6 +577,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arenaSlicePrefab: {fileID: 5360808774078232931, guid: 99ca6cab323f67a429f728077e12e1e2, type: 3}
+  arenaFloor: {fileID: 859965126}
+  heightGrowthFactor: 2
 --- !u!4 &1622089966
 Transform:
   m_ObjectHideFlags: 0
@@ -581,10 +587,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1622089964}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.93194175, y: -4.334155, z: -2.4174423}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 859965130}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -12,7 +12,7 @@ public class ArenaController : MonoBehaviour
     
     void CreateNextSlice()
     {
-        GameObject slice = Instantiate(arenaSlicePrefab);
+        GameObject slice = Instantiate(arenaSlicePrefab, transform);
 
 
         float wallWidth = slice.transform.GetChild(0).transform.GetChild(0).localScale.z;
