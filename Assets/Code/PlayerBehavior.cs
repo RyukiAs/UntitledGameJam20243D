@@ -16,12 +16,9 @@ public class PlayerBehavior : MonoBehaviour
     public float secondsBetweenJumps;
     private float secondsSinceLastJump;
 
-    public Vector3 playerSize;
-
+    public float playerSize;
     public float jumpHeight;
-    public float timeInAir;
-    private float trackTimeInAir;
-    private bool isJumping;
+    public float gravity;
 
     private Rigidbody rb;
     private Transform playerTransform;
@@ -33,12 +30,12 @@ public class PlayerBehavior : MonoBehaviour
         playerTransform = transform;
         secondsSinceLastShot = secondsBetweenShots;
         References.thePlayer = gameObject;
-        timeInAir = 1f;
         isGrounded = true;
+        gravity = 15.0f;
         dashCooldownTimer = dashCooldown;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         UpdatePlayerSize();
         HandleMovement();
@@ -49,14 +46,13 @@ public class PlayerBehavior : MonoBehaviour
 
     private void UpdatePlayerSize()
     {
-        // Assuming playerSize is used for some purpose not shown in the provided code
-        playerSize = new Vector3(playerTransform.localScale.x, playerTransform.localScale.y, playerTransform.localScale.z);
-        jumpHeight = playerTransform.localScale.y;
+        playerSize = 1.0f;
+        jumpHeight = 10.0f * transform.localScale.x;
     }
 
     private void HandleMovement()
     {
-        Vector3 inputVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        Vector3 inputVector = new Vector3(Input.GetAxis("Horizontal"), rb.velocity.y / speed, Input.GetAxis("Vertical"));
         rb.velocity = inputVector * speed;
     }
 
@@ -76,53 +72,15 @@ public class PlayerBehavior : MonoBehaviour
     {
         secondsSinceLastJump += Time.deltaTime;
 
-        if (Input.GetButton("Jump") && secondsSinceLastJump >= secondsBetweenJumps && isGrounded)
+        RaycastHit hit;
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, 0.1f);
+
+        if (Input.GetButton("Jump") && isGrounded)
         {
-            isJumping = true;
-            isGrounded = false;
-            trackTimeInAir = 0;
-            secondsSinceLastJump = 0;
+            float jumpVelocity = Mathf.Sqrt(2.0f * gravity * jumpHeight);
+            rb.velocity = new Vector3(rb.velocity.x, jumpVelocity, rb.velocity.z);
         }
-
-        if (isJumping)
-        {
-            if (timeInAir > 0)
-            {
-                float jumpIncrement = (jumpHeight / timeInAir) * Time.deltaTime;
-                Vector3 newPosition = playerTransform.position + Vector3.up * jumpIncrement;
-                playerTransform.position = newPosition;
-
-                trackTimeInAir += Time.deltaTime;
-
-                if (trackTimeInAir >= timeInAir)
-                {
-                    isJumping = false;
-                }
-            }
-            else
-            {
-                Debug.LogError("timeInAir is zero or negative, setting to default 1 second.");
-                timeInAir = 1;
-            }
-        }
-
-        ApplyGravity();
-    }
-
-    private void ApplyGravity()
-    {
-        float groundLevel = 0.55f;
-
-        if (!isJumping && playerTransform.position.y > groundLevel)
-        {
-            float gravity = 10f;
-            playerTransform.position += Vector3.down * gravity * Time.deltaTime;
-        }
-        else if (playerTransform.position.y <= groundLevel)
-        {
-            playerTransform.position = new Vector3(playerTransform.position.x, groundLevel, playerTransform.position.z);
-            isGrounded = true;
-        }
+        rb.AddForce(Vector3.down * gravity, ForceMode.Acceleration); // Gravity
     }
 
     private void HandleDash()
