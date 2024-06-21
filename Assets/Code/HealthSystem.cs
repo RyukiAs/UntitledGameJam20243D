@@ -11,7 +11,7 @@ public class HealthSystem : MonoBehaviour
 
     public GameObject healthBarPrefab;
 
-    public GameObject deathEffectPrefab;
+    //public GameObject deathEffectPrefab;
 
     HealthBar myHealthBar;
 
@@ -32,10 +32,12 @@ public class HealthSystem : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            /*
             if (deathEffectPrefab != null)
             {
                 Instantiate(deathEffectPrefab, transform.position, transform.rotation);
             }
+            */
             Destroy(gameObject);
 
         }
