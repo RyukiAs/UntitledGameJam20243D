@@ -6,6 +6,8 @@ using UnityEngine.Experimental.AI;
 
 public class PlayerBehavior : MonoBehaviour
 {
+    public Transform arena;
+
     public float speed;
     public float dashDistance;
     public float dashCooldown;
@@ -20,7 +22,7 @@ public class PlayerBehavior : MonoBehaviour
     private bool isGrounded;
 
     public bool attacking;
-    public float attackTimer = 1f;
+    public float attackTimer = 0.5f;
     private float trackAttackTimer = 0f;
 
     private void Start()
@@ -33,11 +35,12 @@ public class PlayerBehavior : MonoBehaviour
         dashCooldown = 1.0f;
         dashCooldownTimer = dashCooldown;
         attacking = false;
+        UpdatePlayerSize();
     }
 
     private void FixedUpdate()
     {
-        UpdatePlayerSize();
+        //UpdatePlayerSize();
         HandleMovement();
         HandleRotation();
         HandleJumping();
@@ -50,6 +53,7 @@ public class PlayerBehavior : MonoBehaviour
         playerSize = 1.0f;
         jumpHeight = 10.0f * transform.localScale.x;
     }
+
 
     private void HandleMovement()
     {
@@ -113,4 +117,10 @@ public class PlayerBehavior : MonoBehaviour
             }
         }
     }
+
+    public void changeSize()
+    {
+        arena.localScale *= 0.99f;
+    }
+
 }

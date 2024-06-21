@@ -80,6 +80,8 @@ public class enemyBehavior : MonoBehaviour
             {
                 HealthSystem enemyHealth = gameObject.GetComponent<HealthSystem>();
                 enemyHealth.TakeDamage(1);
+                player.playerSize += 1;
+                player.changeSize();
             }
             else
             {
