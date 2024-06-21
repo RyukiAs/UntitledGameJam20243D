@@ -25,6 +25,8 @@ public class enemyBehavior : MonoBehaviour
     void switchBehaviorState() {
         float seed = Random.Range(0.0f, 1.0f);
 
+        if (References.thePlayer == null) return;
+
         if ((References.thePlayer.transform.position - transform.position).magnitude < 5.0 && seed < 0.5) {
             state = BehaviorState.Chase;
             return;
