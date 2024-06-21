@@ -22,9 +22,13 @@ public class spawnEnemy : MonoBehaviour
         trackTimeUntilSpawn += Time.deltaTime;
         if(trackTimeUntilSpawn >= timeTilEnemySpawn)
         {
-            Vector3 position = new Vector3(Player.transform.position.x + UnityEngine.Random.Range(-6f, 6f), Player.transform.position.y + 10f, +UnityEngine.Random.Range(-6f, 6f));
-            Instantiate(enemy, position, Quaternion.identity);
-            trackTimeUntilSpawn = 0;
+            if(Player != null)
+            {
+                Vector3 position = new Vector3(Player.transform.position.x + UnityEngine.Random.Range(-6f, 6f), Player.transform.position.y + 10f, +UnityEngine.Random.Range(-6f, 6f));
+                Instantiate(enemy, position, Quaternion.identity);
+                trackTimeUntilSpawn = 0;
+            }
+            
         }
     }
 }

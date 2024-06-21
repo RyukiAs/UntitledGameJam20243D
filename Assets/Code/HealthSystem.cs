@@ -54,7 +54,7 @@ public class HealthSystem : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //make our healthbar reflect our health - myHealthBar.ShowHealth
         myHealthBar.ShowHealthFraction(currentHealth / maxHealth);
