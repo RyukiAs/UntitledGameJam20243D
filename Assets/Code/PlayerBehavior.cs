@@ -49,11 +49,10 @@ public class PlayerBehavior : MonoBehaviour
         Vector3 inputVector = new Vector3(Input.GetAxis("Horizontal"), rb.velocity.y / speed, Input.GetAxis("Vertical"));
 
         float newX = rb.velocity.x;
-        if (Mathf.Abs(newX) < Mathf.Abs(inputVector.x)) newX = inputVector.x * speed;
+        if (Mathf.Abs(newX) < Mathf.Abs(inputVector.x * speed)) newX = inputVector.x * speed;
 
         float newZ = rb.velocity.z;
-        if (Mathf.Abs(newZ) < Mathf.Abs(inputVector.z)) newZ = inputVector.z * speed;
-
+        if (Mathf.Abs(newZ) < Mathf.Abs(inputVector.z * speed)) newZ = inputVector.z * speed;
 
         rb.velocity = new Vector3(newX, inputVector.y * speed, newZ);
     }
