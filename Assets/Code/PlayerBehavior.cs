@@ -10,12 +10,6 @@ public class PlayerBehavior : MonoBehaviour
     public float dashCooldown;
     private float dashCooldownTimer;
 
-    public float secondsBetweenShots;
-    private float secondsSinceLastShot;
-
-    public float secondsBetweenJumps;
-    private float secondsSinceLastJump;
-
     public float playerSize;
     public float jumpHeight;
     public float gravity;
@@ -28,10 +22,10 @@ public class PlayerBehavior : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         playerTransform = transform;
-        secondsSinceLastShot = secondsBetweenShots;
         References.thePlayer = gameObject;
         isGrounded = true;
         gravity = 15.0f;
+        dashCooldown = 1.0f;
         dashCooldownTimer = dashCooldown;
     }
 
@@ -53,7 +47,15 @@ public class PlayerBehavior : MonoBehaviour
     private void HandleMovement()
     {
         Vector3 inputVector = new Vector3(Input.GetAxis("Horizontal"), rb.velocity.y / speed, Input.GetAxis("Vertical"));
-        rb.velocity = inputVector * speed;
+
+        float newX = rb.velocity.x;
+        if (Mathf.Abs(newX) < Mathf.Abs(inputVector.x)) newX = inputVector.x * speed;
+
+        float newZ = rb.velocity.z;
+        if (Mathf.Abs(newZ) < Mathf.Abs(inputVector.z)) newZ = inputVector.z * speed;
+
+
+        rb.velocity = new Vector3(newX, inputVector.y * speed, newZ);
     }
 
     private void HandleRotation()
@@ -70,8 +72,6 @@ public class PlayerBehavior : MonoBehaviour
 
     private void HandleJumping()
     {
-        secondsSinceLastJump += Time.deltaTime;
-
         RaycastHit hit;
         isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, 0.1f);
 
@@ -90,7 +90,7 @@ public class PlayerBehavior : MonoBehaviour
         if (Input.GetButton("Fire1") && dashCooldownTimer >= dashCooldown)
         {
             Vector3 dashDirection = playerTransform.forward;
-            rb.MovePosition(playerTransform.position + dashDirection * dashDistance);
+            rb.AddForce(dashDirection * 15.0f + Vector3.up * 1.0f, ForceMode.Impulse);
             dashCooldownTimer = 0;
         }
     }
