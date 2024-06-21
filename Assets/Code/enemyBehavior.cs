@@ -14,7 +14,7 @@ public class enemyBehavior : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
 
         if (References.thePlayer != null)
@@ -30,13 +30,22 @@ public class enemyBehavior : MonoBehaviour
     private void OnCollisionEnter(Collision thisCollision)
     {
         GameObject theirGameObject = thisCollision.gameObject;
+        PlayerBehavior player = theirGameObject.GetComponent<PlayerBehavior>();
 
-        if (theirGameObject.GetComponent<PlayerBehavior>() != null)
+        if (player != null)
         {
             HealthSystem theirHealthSystem = theirGameObject.GetComponent<HealthSystem>();
-            if (theirHealthSystem != null)
+            if (player.attacking)
             {
-                theirHealthSystem.TakeDamage(1);
+                HealthSystem enemyHealth = gameObject.GetComponent<HealthSystem>();
+                enemyHealth.TakeDamage(1);
+            }
+            else
+            {
+                if (theirHealthSystem != null)
+                {
+                    theirHealthSystem.TakeDamage(1);
+                }
             }
 
         }

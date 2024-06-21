@@ -59,7 +59,8 @@ public class HealthSystem : MonoBehaviour
         //make our healthbar reflect our health - myHealthBar.ShowHealth
         myHealthBar.ShowHealthFraction(currentHealth / maxHealth);
         //Make our healthbar follow us - move to our current position
-        myHealthBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + Vector3.up * 2);
+        //myHealthBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + Vector3.up * 2);
+        myHealthBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + Vector3.forward*0.2f);
 
 
     }

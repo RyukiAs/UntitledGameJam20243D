@@ -691,6 +691,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 1549582620}
   enemy: {fileID: 4951991519488558794, guid: e5e50bc2b7cdd8c43a6c82526dd134e0, type: 3}
+  arena: {fileID: 1622089966}
   timeTilEnemySpawn: 2
 --- !u!1 &1773676355
 GameObject:

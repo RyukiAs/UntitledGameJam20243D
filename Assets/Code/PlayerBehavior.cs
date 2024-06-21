@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Experimental.AI;
 
@@ -18,6 +19,10 @@ public class PlayerBehavior : MonoBehaviour
     private Transform playerTransform;
     private bool isGrounded;
 
+    public bool attacking;
+    public float attackTimer = 1f;
+    private float trackAttackTimer = 0f;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -27,6 +32,7 @@ public class PlayerBehavior : MonoBehaviour
         gravity = 15.0f;
         dashCooldown = 1.0f;
         dashCooldownTimer = dashCooldown;
+        attacking = false;
     }
 
     private void FixedUpdate()
@@ -36,6 +42,7 @@ public class PlayerBehavior : MonoBehaviour
         HandleRotation();
         HandleJumping();
         HandleDash();
+        handleAttack();
     }
 
     private void UpdatePlayerSize()
@@ -85,12 +92,25 @@ public class PlayerBehavior : MonoBehaviour
     private void HandleDash()
     {
         dashCooldownTimer += Time.deltaTime;
-
         if (Input.GetButton("Fire1") && dashCooldownTimer >= dashCooldown)
         {
+            attacking = true;
             Vector3 dashDirection = playerTransform.forward;
             rb.AddForce(dashDirection * 15.0f + Vector3.up * 1.0f, ForceMode.Impulse);
             dashCooldownTimer = 0;
+        }
+    }
+
+    private void handleAttack()
+    {
+        if(attacking == true)
+        {
+            trackAttackTimer += Time.deltaTime;
+            if(trackAttackTimer >= attackTimer)
+            {
+                attacking = false;
+                trackAttackTimer = 0;
+            }
         }
     }
 }
