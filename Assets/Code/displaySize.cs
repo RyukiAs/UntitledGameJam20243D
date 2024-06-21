@@ -22,9 +22,9 @@ public class displaySize : MonoBehaviour
 
     public void getPlayerSize()
     {
-        PlayerBehavior playerScript = player.GetComponent<PlayerBehavior>();
-        if (playerScript != null)
+        if(player != null)
         {
+            PlayerBehavior playerScript = player.GetComponent<PlayerBehavior>();
             float size = playerScript.playerSize;
             text.text = "Size: " + size;
         }
