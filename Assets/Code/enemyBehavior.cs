@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class enemyBehavior : MonoBehaviour
 {
+    enum BehaviorState
+    {
+        Fall,
+        Chase,
+        Still,
+        Wander,
+    }
 
     public float speed;
+    private BehaviorState state;
+    private Vector3 wanderVelocity;
 
     // Start is called before the first frame update
     void Start()
@@ -13,18 +22,50 @@ public class enemyBehavior : MonoBehaviour
 
     }
 
+    void switchBehaviorState() {
+        float seed = Random.Range(0.0f, 1.0f);
+
+        if ((References.thePlayer.transform.position - transform.position).magnitude < 5.0 && seed < 0.5) {
+            state = BehaviorState.Chase;
+            return;
+        }
+
+        if (seed < 0.8) {
+            state = BehaviorState.Wander;
+            return;
+        }
+
+        state = BehaviorState.Still;
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
-
-        if (References.thePlayer != null)
-        {
-            Rigidbody ourRigidBoyd = GetComponent<Rigidbody>();
-            Vector3 vectorToPlayer = References.thePlayer.transform.position - transform.position;
-            ourRigidBoyd.velocity = vectorToPlayer.normalized * speed;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        switch (state) { 
+            case BehaviorState.Fall:
+                if (rb.velocity.y >= -0.01) switchBehaviorState();
+                break;
+            case BehaviorState.Chase:
+                if (References.thePlayer != null)
+                {
+                    Vector3 vectorToPlayer = References.thePlayer.transform.position - transform.position;
+                    rb.velocity = vectorToPlayer.normalized * speed;
+                }
+                break;
+            case BehaviorState.Wander:
+                if (Random.Range(0.0f, 1.0f) < 0.01)
+                {
+                    wanderVelocity = new Vector3(Random.Range(-1.0f, 1.0f), rb.velocity.y, Random.Range(-1.0f, 1.0f));
+                }
+                rb.velocity = wanderVelocity;
+                break;
+            case BehaviorState.Still:
+            default:
+                break;
         }
 
-
+        if (state != BehaviorState.Fall && Random.Range(0.0f, 1.0f) < 0.01f) switchBehaviorState();
     }
 
     private void OnCollisionEnter(Collision thisCollision)
