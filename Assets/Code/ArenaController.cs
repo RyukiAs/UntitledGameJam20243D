@@ -26,6 +26,8 @@ public class ArenaController : MonoBehaviour
 
         slice.transform.position = new Vector3(slice.transform.position.x, newScale.y / 2.0f, slice.transform.position.z);
 
+        Debug.Log(heightGrowthFactor);
+
         nextSliceIndex++;
     }
 
