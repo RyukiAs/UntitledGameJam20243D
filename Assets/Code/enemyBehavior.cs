@@ -13,13 +13,15 @@ public class enemyBehavior : MonoBehaviour
     }
 
     public float speed;
+
     private BehaviorState state;
     private Vector3 wanderVelocity;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.velocity += Vector3.down * 0.02f;
     }
 
     void switchBehaviorState() {
@@ -83,6 +85,10 @@ public class enemyBehavior : MonoBehaviour
                 enemyHealth.TakeDamage(1);
                 player.playerSize += 1;
                 player.changeSize();
+
+
+                AudioSource chomp = player.GetComponent<AudioSource>();
+                chomp.Play();
             }
             else
             {
