@@ -10,6 +10,7 @@ public class HealthSystem : MonoBehaviour
     public float maxHealth;
     public float currentHealth;
     public TextMeshProUGUI gameOver;
+    public GameObject background;
 
     public GameObject healthBarPrefab;
     public bool isPlayer;
@@ -52,6 +53,7 @@ public class HealthSystem : MonoBehaviour
         {
             if(isPlayer)
             {
+                background.SetActive(true);
                 gameOver.text = "Game Over!";
             }
             Destroy(gameObject);
