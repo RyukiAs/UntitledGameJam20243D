@@ -27,15 +27,26 @@ public class spawnEnemy : MonoBehaviour
             {
                 Vector3 position = new Vector3(Player.transform.position.x + UnityEngine.Random.Range(-6f, 6f), Player.transform.position.y + 10f, +UnityEngine.Random.Range(-6f, 6f));
                 GameObject enemyPrefab = Instantiate(enemy, arena);
-                if(Player.transform.localScale.x >= 3)
+                if(Player.transform.localScale.x >= 1.2f)
                 {
-
-                }else if(Player.transform.localScale.x >= 2)
+                    enemyPrefab.transform.localScale = new Vector3(10f,10f,10f);
+                    HealthSystem health = enemyPrefab.GetComponent<HealthSystem>();
+                    health.maxHealth = 5;
+                    health.currentHealth = 5;
+                }
+                else if(Player.transform.localScale.x >= 0.8f)
                 {
-
-                }else if(Player.transform.localScale.x >= 1)
+                    enemyPrefab.transform.localScale = new Vector3(6f, 6f, 6f);
+                    HealthSystem health = enemyPrefab.GetComponent<HealthSystem>();
+                    health.maxHealth = 3;
+                    health.currentHealth = 3;
+                }
+                else if(Player.transform.localScale.x >= 0.4f)
                 {
-
+                    enemyPrefab.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+                    HealthSystem health = enemyPrefab.GetComponent<HealthSystem>();
+                    health.maxHealth = 2;
+                    health.currentHealth = 2;
                 }
 
 

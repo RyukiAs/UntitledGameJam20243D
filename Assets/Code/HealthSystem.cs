@@ -23,7 +23,7 @@ public class HealthSystem : MonoBehaviour
         //Create health panel ON the canvas
         if(!isPlayer)
         {
-            StartCoroutine(WaitAndDisplayHealthBar(4f));
+            StartCoroutine(WaitAndDisplayHealthBar(1.5f));
         }
         else
         {
