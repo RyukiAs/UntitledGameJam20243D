@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class spawnEnemy : MonoBehaviour
@@ -27,6 +28,7 @@ public class spawnEnemy : MonoBehaviour
             {
                 Vector3 position = new Vector3(Player.transform.position.x + UnityEngine.Random.Range(-6f, 6f), Player.transform.position.y + 10f, +UnityEngine.Random.Range(-6f, 6f));
                 GameObject enemyPrefab = Instantiate(enemy, arena);
+                /*
                 if(Player.transform.localScale.x >= 1.2f)
                 {
                     enemyPrefab.transform.localScale = new Vector3(10f,10f,10f);
@@ -48,7 +50,24 @@ public class spawnEnemy : MonoBehaviour
                     health.maxHealth = 2;
                     health.currentHealth = 2;
                 }
-
+                */
+                enemyPrefab.transform.localScale = new Vector3(Player.transform.localScale.x + UnityEngine.Random.Range(0,1f), Player.transform.localScale.y + UnityEngine.Random.Range(0, 1f), Player.transform.localScale.z + UnityEngine.Random.Range(0, 1f));
+                HealthSystem health = enemyPrefab.GetComponent<HealthSystem>();
+                float setHp = UnityEngine.Random.Range(0, 100);
+                if(setHp < 50)
+                {
+                    health.maxHealth = 1;
+                    health.currentHealth = 1;
+                }else if(setHp < 80)
+                {
+                    health.maxHealth = 2;
+                    health.currentHealth = 2;
+                }
+                else
+                {
+                    health.maxHealth = 3;
+                    health.currentHealth = 3;
+                }
 
                 //GameObject enemy = Instantiate(enemy, position, Quaternion.identity);
                 trackTimeUntilSpawn = 0;
