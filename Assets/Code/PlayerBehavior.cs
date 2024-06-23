@@ -83,7 +83,10 @@ public class PlayerBehavior : MonoBehaviour
     private void HandleJumping()
     {
         RaycastHit hit;
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, 0.1f);
+
+        Vector3 rayStart = transform.position;
+        rayStart.y -= transform.localScale.y / 2.0f - 0.01f;
+        isGrounded = Physics.Raycast(rayStart, Vector3.down, out hit, 0.1f);
 
         if (Input.GetButton("Jump") && isGrounded)
         {
