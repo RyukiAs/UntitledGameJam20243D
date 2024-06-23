@@ -51,10 +51,29 @@ public class spawnEnemy : MonoBehaviour
                     health.currentHealth = 2;
                 }
                 */
-                enemyPrefab.transform.localScale = new Vector3(Player.transform.localScale.x + UnityEngine.Random.Range(0,1f), Player.transform.localScale.y + UnityEngine.Random.Range(0, 1f), Player.transform.localScale.z + UnityEngine.Random.Range(0, 1f));
+                float randomX = UnityEngine.Random.Range(0, 1f);
+                float randomY = UnityEngine.Random.Range(0, 1f);
+                float randomZ = UnityEngine.Random.Range(0, 1f);
+                enemyPrefab.transform.localScale = new Vector3(Player.transform.localScale.x + randomX, Player.transform.localScale.y + randomY, Player.transform.localScale.z + randomZ);
                 HealthSystem health = enemyPrefab.GetComponent<HealthSystem>();
                 float setHp = UnityEngine.Random.Range(0, 100);
-                if(setHp < 50)
+                float averageGain = (randomX + randomY + randomZ) / 3f; //max = 1
+
+                if(averageGain < 0.5f)
+                {
+                    health.maxHealth = 1;
+                    health.currentHealth = 1;
+                }else if (averageGain < 0.8f)
+                {
+                    health.maxHealth = 2;
+                    health.currentHealth = 2;
+                }else
+                {
+                    health.maxHealth = 3;
+                    health.currentHealth = 3;
+                }
+                /*
+                if (setHp < 50)
                 {
                     health.maxHealth = 1;
                     health.currentHealth = 1;
@@ -68,6 +87,7 @@ public class spawnEnemy : MonoBehaviour
                     health.maxHealth = 3;
                     health.currentHealth = 3;
                 }
+                */
 
                 //GameObject enemy = Instantiate(enemy, position, Quaternion.identity);
                 trackTimeUntilSpawn = 0;
