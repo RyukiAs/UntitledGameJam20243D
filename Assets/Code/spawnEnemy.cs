@@ -56,7 +56,7 @@ public class spawnEnemy : MonoBehaviour
                 float randomZ = UnityEngine.Random.Range(0, 1f);
                 enemyPrefab.transform.localScale = new Vector3(Player.transform.localScale.x + randomX, Player.transform.localScale.y + randomY, Player.transform.localScale.z + randomZ);
                 HealthSystem health = enemyPrefab.GetComponent<HealthSystem>();
-                float setHp = UnityEngine.Random.Range(0, 100);
+                //float setHp = UnityEngine.Random.Range(0, 100);
                 float averageGain = (randomX + randomY + randomZ) / 3f; //max = 1
 
                 if(averageGain < 0.5f)
