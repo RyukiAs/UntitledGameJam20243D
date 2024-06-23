@@ -93,6 +93,10 @@ public class enemyBehavior : MonoBehaviour
                 else 
                 {
                     player.playThud();
+                    Rigidbody rb = player.GetComponent<Rigidbody>();
+                    Vector3 forceVec = (player.transform.position - transform.position).normalized * 10.0f;
+                    forceVec.y = 1.0f;
+                    rb.AddForce(forceVec, ForceMode.Impulse);
                 }
                 enemyHealth.TakeDamage(1);
 
