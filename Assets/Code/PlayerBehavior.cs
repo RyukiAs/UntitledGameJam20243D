@@ -26,6 +26,7 @@ public class PlayerBehavior : MonoBehaviour
     private float trackAttackTimer = 0f;
 
     public AudioSource whooshSound;
+    public AudioSource thudSound;
 
     private void Start()
     {
@@ -108,6 +109,7 @@ public class PlayerBehavior : MonoBehaviour
             rb.AddForce(dashDirection * 15.0f + Vector3.up * 1.0f, ForceMode.Impulse);
             dashCooldownTimer = 0;
 
+            whooshSound.pitch = Random.Range(0.9f, 1.4f);
             whooshSound.Play();
         }
     }
@@ -135,4 +137,8 @@ public class PlayerBehavior : MonoBehaviour
         
     }
 
+    public void playThud()
+    { 
+        thudSound.Play();
+    }
 }

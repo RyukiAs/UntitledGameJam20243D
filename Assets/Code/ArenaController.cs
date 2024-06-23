@@ -23,10 +23,7 @@ public class ArenaController : MonoBehaviour
         newScale.y = Mathf.Pow(heightGrowthFactor, nextSliceIndex + 1);
         newScale.z = arenaFloor.transform.localScale.z * Mathf.Pow(growthFactor, nextSliceIndex + 1);
         slice.transform.localScale = newScale;
-
         slice.transform.position = new Vector3(slice.transform.position.x, newScale.y / 2.0f, slice.transform.position.z);
-
-        Debug.Log(heightGrowthFactor);
 
         nextSliceIndex++;
     }

@@ -82,12 +82,17 @@ public class enemyBehavior : MonoBehaviour
             if (player.attacking)
             {
                 HealthSystem enemyHealth = gameObject.GetComponent<HealthSystem>();
-                if(enemyHealth.currentHealth <= 1)
+                if (enemyHealth.currentHealth <= 1)
                 {
                     player.playerSize += 1;
                     player.changeSize();
                     AudioSource chomp = player.GetComponent<AudioSource>();
+                    chomp.pitch = Random.Range(0.9f, 1.1f);
                     chomp.Play();
+                }
+                else 
+                {
+                    player.playThud();
                 }
                 enemyHealth.TakeDamage(1);
 
