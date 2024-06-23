@@ -25,6 +25,8 @@ public class PlayerBehavior : MonoBehaviour
     public float attackTimer = 0.5f;
     private float trackAttackTimer = 0f;
 
+    public AudioSource whooshSound;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -105,6 +107,8 @@ public class PlayerBehavior : MonoBehaviour
             Vector3 dashDirection = playerTransform.forward;
             rb.AddForce(dashDirection * 15.0f + Vector3.up * 1.0f, ForceMode.Impulse);
             dashCooldownTimer = 0;
+
+            whooshSound.Play();
         }
     }
 
