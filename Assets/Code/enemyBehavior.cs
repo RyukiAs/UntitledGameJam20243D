@@ -86,17 +86,11 @@ public class enemyBehavior : MonoBehaviour
                 {
                     player.playerSize += 1;
                     player.changeSize();
+                    AudioSource chomp = player.GetComponent<AudioSource>();
+                    chomp.Play();
                 }
                 enemyHealth.TakeDamage(1);
-<<<<<<< Updated upstream
-                player.playerSize += 1;
-                player.changeSize();
 
-
-                AudioSource chomp = player.GetComponent<AudioSource>();
-                chomp.Play();
-=======
->>>>>>> Stashed changes
             }
             else
             {
