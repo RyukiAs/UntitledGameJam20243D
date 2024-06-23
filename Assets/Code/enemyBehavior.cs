@@ -77,7 +77,6 @@ public class enemyBehavior : MonoBehaviour
 
         if (player != null)
         {
-            HealthSystem theirHealthSystem = theirGameObject.GetComponent<HealthSystem>();
             if (player.attacking)
             {
                 HealthSystem enemyHealth = gameObject.GetComponent<HealthSystem>();
@@ -87,10 +86,19 @@ public class enemyBehavior : MonoBehaviour
             }
             else
             {
-                if (theirHealthSystem != null)
+                HealthSystem theirHealthSystem = theirGameObject.GetComponent<HealthSystem>();
+                if(player.transform.localScale.x <= transform.localScale.x) // do 1 dmg if player is smaller
                 {
-                    theirHealthSystem.TakeDamage(1);
+                    if (theirHealthSystem != null)
+                    {
+                        theirHealthSystem.TakeDamage(1);
+                    }
+                }else if (transform.localScale.x < player.transform.localScale.x) //do thisGameobjectscale/playerscale damage ex(0.1/1)
+                {
+                    float damage = transform.localScale.x / player.transform.localScale.x;
+                    theirHealthSystem.TakeDamage(damage);
                 }
+                
             }
 
         }

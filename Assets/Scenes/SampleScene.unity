@@ -631,6 +631,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   healthBarPrefab: {fileID: 7910804276827029323, guid: 1ac3380c8c60a4e47a550edc887b3110, type: 3}
+  isPlayer: 1
 --- !u!1 &1622089964
 GameObject:
   m_ObjectHideFlags: 0

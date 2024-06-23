@@ -123,8 +123,12 @@ public class PlayerBehavior : MonoBehaviour
 
     public void changeSize()
     {
-        arena.localScale *= 0.99f;
-        gameObject.transform.localScale += Vector3.one * 0.01f;
+        arena.localScale *= 0.97f;
+        if(gameObject.transform.localScale.x < 3f)
+        {
+            gameObject.transform.localScale += Vector3.one * 0.02f;
+        }
+        
     }
 
 }

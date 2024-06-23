@@ -10,6 +10,7 @@ public class HealthSystem : MonoBehaviour
     float currentHealth;
 
     public GameObject healthBarPrefab;
+    public bool isPlayer;
 
     //public GameObject deathEffectPrefab;
 
@@ -20,6 +21,21 @@ public class HealthSystem : MonoBehaviour
     {
         currentHealth = maxHealth;
         //Create health panel ON the canvas
+        if(!isPlayer)
+        {
+            StartCoroutine(WaitAndDisplayHealthBar(4f));
+        }
+        else
+        {
+            StartCoroutine(WaitAndDisplayHealthBar(0f));
+        }
+        
+    }
+    private IEnumerator WaitAndDisplayHealthBar(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+
+        // Create health panel ON the canvas after the wait time
         GameObject healthBarObject = Instantiate(healthBarPrefab, References.canvas.transform);
         myHealthBar = healthBarObject.GetComponent<HealthBar>();
     }
@@ -56,12 +72,13 @@ public class HealthSystem : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        //make our healthbar reflect our health - myHealthBar.ShowHealth
-        myHealthBar.ShowHealthFraction(currentHealth / maxHealth);
-        //Make our healthbar follow us - move to our current position
-        //myHealthBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + Vector3.up * 2);
-        myHealthBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + Vector3.forward*0.2f);
-
+        if (myHealthBar != null) // Null check to ensure myHealthBar is initialized
+        {
+            //make our healthbar reflect our health - myHealthBar.ShowHealth
+            myHealthBar.ShowHealthFraction(currentHealth / maxHealth);
+            //Make our healthbar follow us - move to our current position
+            myHealthBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + Vector3.forward * 0.2f);
+        }
 
     }
 }
