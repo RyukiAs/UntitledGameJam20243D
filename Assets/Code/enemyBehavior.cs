@@ -82,13 +82,21 @@ public class enemyBehavior : MonoBehaviour
             if (player.attacking)
             {
                 HealthSystem enemyHealth = gameObject.GetComponent<HealthSystem>();
+                if(enemyHealth.currentHealth <= 1)
+                {
+                    player.playerSize += 1;
+                    player.changeSize();
+                }
                 enemyHealth.TakeDamage(1);
+<<<<<<< Updated upstream
                 player.playerSize += 1;
                 player.changeSize();
 
 
                 AudioSource chomp = player.GetComponent<AudioSource>();
                 chomp.Play();
+=======
+>>>>>>> Stashed changes
             }
             else
             {
@@ -102,7 +110,9 @@ public class enemyBehavior : MonoBehaviour
                 }else if (transform.localScale.x < player.transform.localScale.x) //do thisGameobjectscale/playerscale damage ex(0.1/1)
                 {
                     float damage = transform.localScale.x / player.transform.localScale.x;
-                    theirHealthSystem.TakeDamage(damage);
+                    float minimum = 0.1f;
+                    float max = Mathf.Max(minimum, damage);
+                    theirHealthSystem.TakeDamage(max);
                 }
                 
             }

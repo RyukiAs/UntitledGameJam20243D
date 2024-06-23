@@ -7,7 +7,7 @@ public class HealthSystem : MonoBehaviour
 {
     [FormerlySerializedAs("health")] //write this to not lose data when renaming
     public float maxHealth;
-    float currentHealth;
+    public float currentHealth;
 
     public GameObject healthBarPrefab;
     public bool isPlayer;

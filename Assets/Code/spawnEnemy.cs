@@ -27,6 +27,18 @@ public class spawnEnemy : MonoBehaviour
             {
                 Vector3 position = new Vector3(Player.transform.position.x + UnityEngine.Random.Range(-6f, 6f), Player.transform.position.y + 10f, +UnityEngine.Random.Range(-6f, 6f));
                 GameObject enemyPrefab = Instantiate(enemy, arena);
+                if(Player.transform.localScale.x >= 3)
+                {
+
+                }else if(Player.transform.localScale.x >= 2)
+                {
+
+                }else if(Player.transform.localScale.x >= 1)
+                {
+
+                }
+
+
                 //GameObject enemy = Instantiate(enemy, position, Quaternion.identity);
                 trackTimeUntilSpawn = 0;
                 enemyPrefab.transform.position = position;
