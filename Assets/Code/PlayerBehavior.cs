@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -7,6 +8,9 @@ using UnityEngine.Experimental.AI;
 public class PlayerBehavior : MonoBehaviour
 {
     public Transform arena;
+
+    public Material normalMaterial;
+    public Material dashMaterial;
 
     public float speed;
     public float dashDistance;
@@ -118,11 +122,14 @@ public class PlayerBehavior : MonoBehaviour
     {
         if(attacking == true)
         {
+            Renderer renderer= gameObject.GetComponent<Renderer>();
+            renderer.material = dashMaterial;
             trackAttackTimer += Time.deltaTime;
             if(trackAttackTimer >= attackTimer)
             {
                 attacking = false;
                 trackAttackTimer = 0;
+                renderer.material = normalMaterial;
             }
         }
     }

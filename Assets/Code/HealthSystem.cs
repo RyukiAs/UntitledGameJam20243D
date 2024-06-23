@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -8,6 +9,7 @@ public class HealthSystem : MonoBehaviour
     [FormerlySerializedAs("health")] //write this to not lose data when renaming
     public float maxHealth;
     public float currentHealth;
+    public TextMeshProUGUI gameOver;
 
     public GameObject healthBarPrefab;
     public bool isPlayer;
@@ -48,12 +50,10 @@ public class HealthSystem : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            /*
-            if (deathEffectPrefab != null)
+            if(isPlayer)
             {
-                Instantiate(deathEffectPrefab, transform.position, transform.rotation);
+                gameOver.text = "Game Over!";
             }
-            */
             Destroy(gameObject);
 
         }
